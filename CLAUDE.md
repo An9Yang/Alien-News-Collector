@@ -16,7 +16,7 @@
 
 ```
 archive/
-└── YYYY-MM-DD/                  # UTC 日期，由 `date -u +%Y-%m-%d` 决定
+└── YYYY-MM-DD/                  # UTC 日期，仅在当日有内容时创建
     ├── README.md                # 当日索引
     ├── 01-<source>-<slug>.md    # 第一篇
     ├── 02-<source>-<slug>.md
@@ -24,6 +24,8 @@ archive/
         ├── 01-img-1.jpg
         └── 02-img-1.png
 ```
+
+**空白日（0 篇）不创建目录、不写文件、不提交。运行记录看 Routine 详情页即可。**
 
 ### 文件命名
 
@@ -84,6 +86,8 @@ verification: standard      # 垂直源 / 合成稿用 needs-cross-check
 
 ### 当日索引 `archive/YYYY-MM-DD/README.md`
 
+仅在当天至少抓到 1 篇时才写：
+
 ```markdown
 # UFO / UAP 每日归档 · YYYY-MM-DD (UTC)
 
@@ -97,26 +101,17 @@ verification: standard      # 垂直源 / 合成稿用 needs-cross-check
 - ...
 ```
 
-如果当天 0 篇，README 里写：
-
-```markdown
-# UFO / UAP 每日归档 · YYYY-MM-DD (UTC)
-
-抓取窗口：YYYY-MM-DD UTC 00:00 ～ HH:MM
-共 0 篇 · 今日白名单源未发布相关内容。
-```
-
 ## 去重
 
 写入前快速检查 `archive/<前 2 天>/README.md` 与今天的 README 是否已有同一 URL。已抓过就跳过。
 
 ## 提交规范
 
-- 每次 Routine 运行结束做一次 commit：
-  - 有抓到稿子：`archive: YYYY-MM-DD · N items (官方 X / 媒体 Y)`
-  - 0 篇：`archive: YYYY-MM-DD · empty day`
-- Commit body 列出每条 URL，方便回溯。
-- **Push 到 `main`**，使用 `git push origin HEAD:main`。Routine 会话本身可能在自动生成的 `claude/<random>` 会话分支上，但归档**统一进 main**，避免每次都新建一条分支。
+- **有抓到稿子才提交**：
+  - Commit message：`archive: YYYY-MM-DD · N items`。
+  - Commit body 列出每条 URL，方便回溯。
+- **0 篇的日子不创建目录、不提交**。运行记录看 Routine 详情页即可，避免仓库被空的 day stub 污染。
+- **Push 到 `main`**，使用 `git push origin HEAD:main`。Routine 会话本身在自动生成的 `claude/<random>` 会话分支上，但归档**统一进 main**。
 - 如果 push 因冲突失败：`git fetch origin main && git rebase origin/main && git push origin HEAD:main`。
 
 ## 安全与版权
