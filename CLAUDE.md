@@ -52,6 +52,8 @@ tags:
   - <其他>
 images:
   - assets/01-img-1.jpg
+fetch_status: ok            # 被 403 时用 blocked-by-source
+verification: standard      # 垂直源 / 合成稿用 needs-cross-check
 ---
 ```
 
@@ -65,9 +67,9 @@ images:
 
 | slug | 中文 | 说明 |
 |---|---|---|
-| `official-statement` | 官方声明 | DoD/AARO/NASA/ODNI 的新闻稿、声明、报告发布 |
+| `official-statement` | 官方声明 | DoD/DoW/AARO/NASA/ODNI 的新闻稿、声明、报告发布 |
 | `congressional-hearing` | 国会听证 | 国会听证会、证词、议员声明 |
-| `document-disclosure` | 文件解密 | FOIA 解密、官方档案公开 |
+| `document-disclosure` | 文件解密 | FOIA 解密、官方档案公开（如 PURSUE 计划批次） |
 | `news-report` | 新闻报道 | 媒体的事件性报道 |
 | `investigative-report` | 深度调查 | 长篇调查、独家爆料 |
 | `sighting-event` | 目击事件 | 具体目击案例的报道 |
@@ -114,7 +116,8 @@ images:
   - 有抓到稿子：`archive: YYYY-MM-DD · N items (官方 X / 媒体 Y)`
   - 0 篇：`archive: YYYY-MM-DD · empty day`
 - Commit body 列出每条 URL，方便回溯。
-- Push 到当前分支（Routine 里通常是 `main`）。
+- **Push 到 `main`**，使用 `git push origin HEAD:main`。Routine 会话本身可能在自动生成的 `claude/<random>` 会话分支上，但归档**统一进 main**，避免每次都新建一条分支。
+- 如果 push 因冲突失败：`git fetch origin main && git rebase origin/main && git push origin HEAD:main`。
 
 ## 安全与版权
 
