@@ -1,0 +1,32 @@
+# 图片下载占位说明
+
+本次 Routine 运行所在的沙箱环境对出站网络做了白名单限制，所有外部 HTTP(S) 主机
+（含 war.gov、cdn、media.defense.gov 等）均返回：
+
+    HTTP 403 Forbidden  ·  body: "Host not in allowlist"
+
+因此 `scripts/download_media.py` 与直接的 `curl` 都无法把图片落盘。
+
+## 待补抓的候选图片 URL
+
+文章正文 01-dod-pursue-second-uap-release.md 涉及的图片，等价的候选 URL（来自
+搜索结果与 PURSUE 文档索引）如下，留待下次本地/可联网环境中手动补抓：
+
+1. PURSUE 落地页主视觉
+   - https://www.war.gov/ufo/  （页面 hero 图，未取到具体 CDN 路径）
+
+2. 休伦湖 F-16C 红外视频截帧（如官方放出静态封面）
+   - https://www.war.gov/ufo/?releaseDate=Release+02
+     （Release 02 索引页，含视频缩略图）
+
+3. PURSUE Release 02 文档样本（PDF 缩略图）
+   - https://www.war.gov/medialink/ufo/052226/release_02/documents/ODNI-UAP-D001_USPER_Narrative_Senior_USIC.pdf
+   - https://www.war.gov/medialink/ufo/052226/release_02/documents/CIA-UAP-D001_Intelligence_Information_Report_USSR_1973.pdf
+
+## 重抓建议
+
+在可联网环境下：
+
+    python3 scripts/download_media.py "<上述 URL>" "archive/2026-05-24/assets/01-img-1"
+
+成功后用真实图片文件名替换正文中的占位描述，并把本 .txt 删除。
